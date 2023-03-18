@@ -29,7 +29,7 @@ class All_avilable_filter(models.Model):
 
 class Top_ten(models.Model):
     id = models.IntegerField(unique=True,primary_key=True,editable=False)
-    type = models.ForeignKey(All_avilable_filter,on_delete=models.PROTECT)    
+    type = models.OneToOneField(All_avilable_filter,on_delete=models.PROTECT)    
     First = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_first_set')    
     Second = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_second_set')    
     Third = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_third_set')    
@@ -40,6 +40,7 @@ class Top_ten(models.Model):
     Eighth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_eight_set')    
     Ninth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_ninth_set')    
     Tenth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_tenth_set')    
+    upadte_time = models.DateTimeField(auto_now_add=True,null =True,blank=True)
 
 
     def clean(self):
@@ -50,7 +51,8 @@ class Top_ten(models.Model):
             raise ValidationError('The First to Tenth fields must be unique.')
 
     def __str__(self):
-        return str(self.id)
+        return self.type.name
+
 
 class Device(models.Model):
     id = models.IntegerField(unique=True,primary_key=True,editable=False)
