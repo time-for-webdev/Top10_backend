@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'vpn.apps.VpnConfig',
+    'rest_framework',
+    'corsheaders',
+    
 ]
 
 MIDDLEWARE = [
