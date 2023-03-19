@@ -79,5 +79,14 @@ class Service(models.Model):
 
     def __str__(self):
         return self.name.name
+
+class Form(models.Model):
+    id = models.IntegerField(unique=True,primary_key=True,editable=False)     
+    name = models.CharField(max_length=1000)
+    email = models.EmailField(max_length=1000)
+    Ques_comment = models.TextField(null=True,blank=True) 
+
+    def __str__(self):
+        return self.name  
     
 
