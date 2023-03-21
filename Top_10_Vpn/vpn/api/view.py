@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from vpn.models import Top_ten,VpnList,All_avilable_filter,Form
-from .serializers import Top_Ten_Serializer,VpnList_Serializer,All_available_filter_Serializer,Form_Serializer
+from vpn.models import Top_ten,VpnList,All_avilable_filter,Form,Specification
+from .serializers import Top_Ten_Serializer,VpnList_Serializer,All_available_filter_Serializer,Form_Serializer,Specification_Serializer
 from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework.renderers import JSONRenderer
@@ -12,6 +12,7 @@ from rest_framework.parsers import JSONParser
 def Instruction(request):
     instruction =(
         ('','instructions'),
+        ('/specification',"specification_of_all_vpn"),
         ('/vpn','Vpn_List'),
         ('/vpn/id','Vpn_with_id'),
         ('/vpn/id/logo','logo_of_vpn_of_id'),
@@ -25,6 +26,14 @@ def Instruction(request):
 
 
 @api_view(["GET"])
+def Specification_without_id(request):
+    specification_data_set = Specification.objects.all()
+    serializer = Specification_Serializer(specification_data_set,many = True)
+    return Response(serializer.data)
+
+
+
+@api_view(["GET"])
 def Vpn_without_id(request):
     Vpn_list_data_set = VpnList.objects.all()
     serializer = VpnList_Serializer(Vpn_list_data_set,many = True)
@@ -34,7 +43,7 @@ def Vpn_without_id(request):
 @api_view(["GET"])
 def Vpn_with_id(request,pk):
     try:
-        top_10_data_object = VpnList.objects.get(id=pk)
+        top_10_data_object = VpnList.objects.get(title=pk)
         serializer = VpnList_Serializer(top_10_data_object,many = False)
         return Response(serializer.data)
     except:

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from vpn.models import VpnList,All_avilable_filter,Top_ten,Device,Location,Service,Form
+from vpn.models import VpnList,All_avilable_filter,Top_ten,Device,Location,Service,Form,Specification
 # Register your models here.
 
 admin.site.register(VpnList)
@@ -9,6 +9,7 @@ admin.site.register(Device)
 admin.site.register(Location)
 admin.site.register(Service)
 admin.site.register(Form)
+admin.site.register(Specification)
 
 
 

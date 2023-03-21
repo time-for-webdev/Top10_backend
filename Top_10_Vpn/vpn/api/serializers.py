@@ -1,9 +1,16 @@
 from rest_framework import serializers
-from vpn.models import Top_ten,VpnList,All_avilable_filter,Form
+from vpn.models import Top_ten,VpnList,All_avilable_filter,Form,Specification
 
+class Specification_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Specification
+        fields = '__all__' 
 
 
 class VpnList_Serializer(serializers.ModelSerializer):
+
+    specification = Specification_Serializer(many = True)
+
     class Meta:
         model = VpnList
         fields = '__all__'    
@@ -20,7 +27,6 @@ class Form_Serializer(serializers.ModelSerializer):
         fields = '__all__'         
 
 class Top_Ten_Serializer(serializers.ModelSerializer):
-
     type =  All_available_filter_Serializer()
     First = VpnList_Serializer()  
     Second = VpnList_Serializer()   
@@ -32,6 +38,7 @@ class Top_Ten_Serializer(serializers.ModelSerializer):
     Eighth = VpnList_Serializer()  
     Ninth = VpnList_Serializer()  
     Tenth = VpnList_Serializer()
+    
     class Meta:
         model = Top_ten
         fields = '__all__'
