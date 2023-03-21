@@ -47,7 +47,7 @@ class All_avilable_filter(models.Model):
 
 class Top_ten(models.Model):
     id = models.IntegerField(unique=True,primary_key=True,editable=False)
-    type = models.OneToOneField(All_avilable_filter,on_delete=models.PROTECT)    
+    type = models.OneToOneField(All_avilable_filter,on_delete=models.PROTECT,default="")    
     First = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_first_set')    
     Second = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_second_set')    
     Third = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_third_set')    

@@ -89,7 +89,7 @@ def Top_10_without_id(request):
 @api_view(["GET"])
 def Top_10_with_id(request,pk):
     try:
-        top_10_data_object = Top_ten.objects.get(id=pk)
+        top_10_data_object = Top_ten.objects.get(type__name=pk)
         serializer = Top_Ten_Serializer(top_10_data_object,many = False)
         return Response(serializer.data)
     except:
