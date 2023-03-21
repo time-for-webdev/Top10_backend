@@ -7,19 +7,33 @@ from django.core.exceptions import ValidationError
 
 # Create your models here.
 
+class Specification(models.Model):
+    id = models.IntegerField(unique=True,primary_key=True,editable=False)
+    vpn_name = models.CharField(max_length=1000)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.vpn_name
+
 class VpnList(models.Model):
     id = models.UUIDField(default= uuid.uuid4,unique=True,primary_key=True,editable=False)
-    title = models.CharField(max_length=200)
-    logo = models.ImageField( upload_to='archivos',default=None)
+    title = models.CharField(max_length=200,unique=True)
+    logo = models.ImageField( upload_to='archivos',default="")
     description = models.TextField(null = True,blank = True)
-    specification1 = models.TextField(null = True,blank = True)
-    specification2 = models.TextField(null = True,blank = True)
-    specification3 = models.TextField(null = True,blank = True)
-    specification4 = models.TextField(null = True,blank = True)
-    specification5 = models.TextField(null = True,blank = True)
+    specification = models.ManyToManyField(Specification);
     offer = models.CharField(max_length=1000,null = True,blank = True)
     rating = models.IntegerField(default=0,validators=[MaxValueValidator(100)])
-    website_url = models.URLField(max_length=1000,default=None)
+    website_url = models.URLField(max_length=1000,default="")
+    moneybackguarantee = models.CharField(max_length=1000,default="")
+    coutries_allowed = models.CharField(max_length=1000,default="")
+    killswitch = models.CharField(max_length=1000,default="")
+    number_of_device_or_licence = models.IntegerField(default=0)
+    Device = models.CharField(max_length=1000,null=True,blank=True)
+    user_name = models.CharField(max_length=1000,default="")
+    user_comment = models.CharField(max_length=1000,default="")
+    user_rating = models.DecimalField(max_digits=2,decimal_places=1,default=0,validators=[MaxValueValidator(5)])
+    
+
     
     def __str__(self):
         return self.title
@@ -33,7 +47,7 @@ class All_avilable_filter(models.Model):
 
 class Top_ten(models.Model):
     id = models.IntegerField(unique=True,primary_key=True,editable=False)
-    type = models.OneToOneField(All_avilable_filter,on_delete=models.PROTECT)    
+    type = models.OneToOneField(All_avilable_filter,on_delete=models.PROTECT,default="")    
     First = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_first_set')    
     Second = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_second_set')    
     Third = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_third_set')    
@@ -50,7 +64,7 @@ class Top_ten(models.Model):
     def clean(self):
         # Check for duplicates in the First to Tenth fields
         first_to_tenth = [self.First, self.Second, self.Third, self.Forth, self.Fifth, self.Sixth, self.Seventh, self.Eighth, self.Ninth, self.Tenth]
-        non_empty_fields = [field for field in first_to_tenth if field is not None]
+        non_empty_fields = [field for field in first_to_tenth if field is not ""]
         if len(non_empty_fields) != len(set(non_empty_fields)):
             raise ValidationError('The First to Tenth fields must be unique.')
 
