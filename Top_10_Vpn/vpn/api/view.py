@@ -104,7 +104,9 @@ def All_avilable_filter_with_id(request,pk):
 @api_view(["GET"])
 def Top_10_without_id(request):
     top_10_data_set = Top_ten.objects.all()
-    serializer = Top_Ten_Serializer(top_10_data_set,many = True)
+    serializer = Top_Ten_Serializer(top_10_data_set,many = True,context={'request': request})
+    data = serializer.data
+    
     return Response(serializer.data)
 
 
@@ -112,7 +114,7 @@ def Top_10_without_id(request):
 def Top_10_with_id(request,pk):
     try:
         top_10_data_object = Top_ten.objects.get(type__name=pk)
-        serializer = Top_Ten_Serializer(top_10_data_object,many = False)
+        serializer = Top_Ten_Serializer(top_10_data_object,many = False,context = {'request':request})
         return Response(serializer.data)
     except:
         return Response("No object present with that specific id")
