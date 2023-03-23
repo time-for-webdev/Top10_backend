@@ -41,9 +41,9 @@ class VpnList(models.Model):
     logo = models.ImageField( upload_to='archivos',default="")
     description = models.TextField(null = True,blank = True)
     specification = models.ManyToManyField(Specification);
-    remark = models.OneToOneField(remark,null=True,blank=True,on_delete=models.PROTECT)
+    remark = models.ForeignKey(remark,on_delete=models.PROTECT,null=True,blank = True)
     offer = models.CharField(max_length=1000,null = True,blank = True)
-    rating = models.IntegerField(default=0,validators=[MaxValueValidator(100)])
+    rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
     website_url = models.URLField(max_length=1000,default="")
     riben_text = models.CharField(max_length=1000,null = True,blank=True)
     Comparision = models.OneToOneField(Comparision,null=True,blank = True,on_delete=models.PROTECT)
@@ -82,9 +82,11 @@ class Top_ten(models.Model):
     def clean(self):
         # Check for duplicates in the First to Tenth fields
         first_to_tenth = [self.First, self.Second, self.Third, self.Forth, self.Fifth, self.Sixth, self.Seventh, self.Eighth, self.Ninth, self.Tenth]
-        non_empty_fields = [field for field in first_to_tenth if field is not ""]
+        non_empty_fields = [field for field in first_to_tenth if field is not None]
         if len(non_empty_fields) != len(set(non_empty_fields)):
             raise ValidationError('The First to Tenth fields must be unique.')
+
+
 
     def __str__(self):
         return self.type.name
