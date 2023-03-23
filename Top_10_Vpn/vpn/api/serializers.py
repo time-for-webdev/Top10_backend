@@ -1,5 +1,11 @@
 from rest_framework import serializers
-from vpn.models import Top_ten,VpnList,All_avilable_filter,Form,Specification
+from vpn.models import Top_ten,VpnList,All_avilable_filter,Form,Specification,remark,Comparision
+
+class Comparision_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comparision
+        fields = '__all__'
+
 
 class Specification_Serializer(serializers.ModelSerializer):
     class Meta:
@@ -7,9 +13,17 @@ class Specification_Serializer(serializers.ModelSerializer):
         fields = '__all__' 
 
 
+class remarks_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = remark
+        fields = '__all__'
+
+
 class VpnList_Serializer(serializers.ModelSerializer):
 
     specification = Specification_Serializer(many = True)
+    remark = remarks_Serializer()
+    Comparision = Comparision_Serializer()
 
     class Meta:
         model = VpnList
