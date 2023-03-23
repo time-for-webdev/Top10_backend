@@ -15,20 +15,38 @@ class Specification(models.Model):
     def __str__(self):
         return self.vpn_name
 
+class remark(models.Model):
+    id = models.IntegerField(unique=True,primary_key=True,editable=False)
+    remarks = models.CharField(max_length=1000,default ="")
+    
+    def __str__(self):
+        return self.remarks
+    
+class Comparision(models.Model):
+    id = models.IntegerField(unique=True,primary_key=True,editable=False)
+    vpn = models.CharField(max_length=1000,unique=True)
+    comparison_description = models.TextField()
+    moneybackguarantee = models.CharField(max_length=1000,default="")
+    servers_or_countries= models.CharField(max_length=1000,default="")
+    killswitch = models.CharField(max_length=1000,default="")
+    number_of_device_or_licence = models.IntegerField(default=0)
+    mobile = models.CharField(max_length=1000,null=True,blank=True)
+
+    def __str__(self):
+        return self.vpn
+
 class VpnList(models.Model):
     id = models.UUIDField(default= uuid.uuid4,unique=True,primary_key=True,editable=False)
     title = models.CharField(max_length=200,unique=True)
     logo = models.ImageField( upload_to='archivos',default="")
     description = models.TextField(null = True,blank = True)
     specification = models.ManyToManyField(Specification);
+    remark = models.OneToOneField(remark,null=True,blank=True,on_delete=models.PROTECT)
     offer = models.CharField(max_length=1000,null = True,blank = True)
     rating = models.IntegerField(default=0,validators=[MaxValueValidator(100)])
     website_url = models.URLField(max_length=1000,default="")
-    moneybackguarantee = models.CharField(max_length=1000,default="")
-    coutries_allowed = models.CharField(max_length=1000,default="")
-    killswitch = models.CharField(max_length=1000,default="")
-    number_of_device_or_licence = models.IntegerField(default=0)
-    Device = models.CharField(max_length=1000,null=True,blank=True)
+    riben_text = models.CharField(max_length=1000,null = True,blank=True)
+    Comparision = models.OneToOneField(Comparision,null=True,blank = True,on_delete=models.PROTECT)
     user_name = models.CharField(max_length=1000,default="")
     user_comment = models.CharField(max_length=1000,default="")
     user_rating = models.DecimalField(max_digits=2,decimal_places=1,default=0,validators=[MaxValueValidator(5)])

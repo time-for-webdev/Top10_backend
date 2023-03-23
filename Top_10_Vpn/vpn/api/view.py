@@ -7,6 +7,7 @@ from django.shortcuts import render
 from rest_framework.renderers import JSONRenderer
 import io
 from rest_framework.parsers import JSONParser
+from django.http import FileResponse
 
 @api_view(['GET'])
 def Instruction(request):
@@ -35,30 +36,51 @@ def Specification_without_id(request):
 
 @api_view(["GET"])
 def Vpn_without_id(request):
-    Vpn_list_data_set = VpnList.objects.all()
-    serializer = VpnList_Serializer(Vpn_list_data_set,many = True)
-    return Response(serializer.data)
+    vpn_list = VpnList.objects.all()
+    serializer = VpnList_Serializer(vpn_list, many=True, context={'request': request})
+    data = serializer.data
+    
+    for instance_data in data:
+        # Add the full URL for the image to the dictionary
+        instance_data['logo_url'] = request.build_absolute_uri(instance_data['logo'])
+    
+    # Create the response object using Response
+    response_data = {
+        'status': 'ok',
+        'data': data,
+    }
+    
+    return Response(response_data)
 
 
 @api_view(["GET"])
 def Vpn_with_id(request,pk):
     try:
         top_10_data_object = VpnList.objects.get(title=pk)
-        serializer = VpnList_Serializer(top_10_data_object,many = False)
-        return Response(serializer.data)
+        serializer = VpnList_Serializer(top_10_data_object,many = False,context={'request': request})
+        data = serializer.data
+        data['logo_url'] = request.build_absolute_uri(data['logo'])
+        response_data = {
+        'status': 'ok',
+        'data': data,
+    }
+
+        return Response(response_data)
     except:
         return Response("No object present with that specific id")
 
 
+
+
 @api_view(['GET'])
-def get_logo_url(request,pk):
+def get_logo_url(request, pk):
     try:
-        vpn_logo = VpnList.objects.get(id =pk)
-        logo_url = vpn_logo.logo.url
-        return Response({'logo_url': logo_url})
-    except:
-        return Response("No object present with that specific id")  
-        
+        vpn_logo = VpnList.objects.get(id=pk)
+        logo_path = open(vpn_logo.logo.path, 'rb')
+        print(type(logo_path))
+        return FileResponse(logo_path)
+    except VpnList.DoesNotExist:
+        return Response("No object present with that specific id")
 
 
 
