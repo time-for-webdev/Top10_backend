@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from vpn.models import Top_ten,VpnList,All_avilable_filter,Form,Specification
-from .serializers import Top_Ten_Serializer,VpnList_Serializer,All_available_filter_Serializer,Form_Serializer,Specification_Serializer
+from vpn.models import VpnList,Form,Specification,Device,Location,Service
+from .serializers import VpnList_Serializer,Form_Serializer,Specification_Serializer,Device_Serializer,Location_Serializer,Service_Serializer
 from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework.renderers import JSONRenderer
@@ -17,10 +17,12 @@ def Instruction(request):
         ('/vpn','Vpn_List'),
         ('/vpn/id','Vpn_with_id'),
         ('/vpn/id/logo','logo_of_vpn_of_id'),
-        ('/All_available_filter','All_availble_filter'),
-        ('/All_available_filter/id','A filter with id'),
-        ('/Top_ten','Top_ten_of_all_filters'),
-        ('/Top_ten/id','Top_ten_of_a_filter_with_id'),
+        ('/device','Show all Devices'),
+        ('/device/id','Specific device with its top 7 vpn'),
+        ('/location','Show all Locations'),
+        ('/location/id','Specific Location with its top 7 vpn'),
+        ('/service','Show all services'),
+        ('/service/id','Specific service with its top 7 vpn'),
         ('/form/','form details')
     )
     return Response(instruction)
@@ -38,19 +40,7 @@ def Specification_without_id(request):
 def Vpn_without_id(request):
     vpn_list = VpnList.objects.all()
     serializer = VpnList_Serializer(vpn_list, many=True, context={'request': request})
-    data = serializer.data
-    
-    for instance_data in data:
-        # Add the full URL for the image to the dictionary
-        instance_data['logo_url'] = request.build_absolute_uri(instance_data['logo'])
-    
-    # Create the response object using Response
-    response_data = {
-        'status': 'ok',
-        'data': data,
-    }
-    
-    return Response(response_data)
+    return Response(serializer.data)
 
 
 @api_view(["GET"])
@@ -58,14 +48,7 @@ def Vpn_with_id(request,pk):
     try:
         top_10_data_object = VpnList.objects.get(title=pk)
         serializer = VpnList_Serializer(top_10_data_object,many = False,context={'request': request})
-        data = serializer.data
-        data['logo_url'] = request.build_absolute_uri(data['logo'])
-        response_data = {
-        'status': 'ok',
-        'data': data,
-    }
-
-        return Response(response_data)
+        return Response(serializer.data)
     except:
         return Response("No object present with that specific id")
 
@@ -82,42 +65,64 @@ def get_logo_url(request, pk):
     except VpnList.DoesNotExist:
         return Response("No object present with that specific id")
 
+@api_view(['GET'])
+def DeviceWithoutId(request):
+    deviceset = Device.objects.all()
+    DeviceName =[]
+    for device in deviceset:
+        DeviceName.append(device.name)
+    return Response(DeviceName)    
 
 
-@api_view(["GET"])
-def All_avilable_filter_without_id(request):
-    All_avilable_filter_data_set = All_avilable_filter.objects.all()
-    serializer =All_available_filter_Serializer(All_avilable_filter_data_set,many = True)
-    return Response(serializer.data)
-
-
-@api_view(["GET"])
-def All_avilable_filter_with_id(request,pk):
+@api_view(['GET'])
+def DeviceWithId(request,pk): 
     try:
-        All_avilable_filter_data_object =All_avilable_filter.objects.get(id=pk)
-        serializer = All_available_filter_Serializer(All_avilable_filter_data_object,many = False)
+        deviceobject = Device.objects.get(name = pk)
+        serializer = Device_Serializer(deviceobject,context = {'request':request})
         return Response(serializer.data)
     except:
-        return Response("No object present with that specific id")        
+        return Response("Id is invalid")    
 
 
-@api_view(["GET"])
-def Top_10_without_id(request):
-    top_10_data_set = Top_ten.objects.all()
-    serializer = Top_Ten_Serializer(top_10_data_set,many = True,context={'request': request})
-    data = serializer.data
-    
-    return Response(serializer.data)
+
+@api_view(['GET'])
+def LocationWithoutId(request):
+    locationset = Location.objects.all()
+    locationName =[]
+    for location in locationset:
+        locationName.append(location.name)   
+    return Response(locationName)    
 
 
-@api_view(["GET"])
-def Top_10_with_id(request,pk):
+@api_view(['GET'])
+def LocationWithId(request,pk): 
     try:
-        top_10_data_object = Top_ten.objects.get(type__name=pk)
-        serializer = Top_Ten_Serializer(top_10_data_object,many = False,context = {'request':request})
+        Locationobject = Location.objects.get(name = pk)
+        serializer = Location_Serializer(Locationobject,context = {'request':request})
         return Response(serializer.data)
     except:
-        return Response("No object present with that specific id")
+        return Response("Id is invalid")   
+
+
+@api_view(['GET'])
+def ServiceWithoutId(request):
+    serviceset = Service.objects.all()
+    serviceName =[]
+    for service in serviceset:
+        serviceName.append(service.name)   
+    return Response(serviceName)  
+
+
+
+@api_view(['GET'])
+def ServiceWithId(request,pk): 
+    try:
+        serviceobject = Service.objects.get(name = pk)
+        serializer = Service_Serializer(serviceobject,context = {'request':request})
+        return Response(serializer.data)
+    except:
+        return Response("Id is invalid") 
+
 
 
 @api_view(['GET','POST','PUT'])
