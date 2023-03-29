@@ -40,10 +40,11 @@ for i in range(0,len(pycountry.countries)):
 
 
 
+
 # Create your models here.
 
 class Specification(models.Model):
-    id = models.IntegerField(unique=True,primary_key=True,editable=False)
+    
     vpn_name = models.CharField(max_length=1000)
     description = models.TextField()
 
@@ -51,14 +52,14 @@ class Specification(models.Model):
         return self.vpn_name
 
 class remark(models.Model):
-    id = models.IntegerField(unique=True,primary_key=True,editable=False)
+    
     remarks = models.CharField(max_length=1000,default ="")
     
     def __str__(self):
         return self.remarks
     
 class Comparision(models.Model):
-    id = models.IntegerField(unique=True,primary_key=True,editable=False)
+    
     vpn = models.CharField(max_length=1000,unique=True)
     comparison_description = models.TextField()
     moneybackguarantee = models.CharField(max_length=1000,default="")
@@ -97,7 +98,7 @@ class VpnList(models.Model):
 
 
 class Device(models.Model):
-    id = models.IntegerField(unique=True,primary_key=True,editable=False)   
+       
     name = models.CharField(max_length=100,unique = True,choices=All_Device)
 
      
@@ -127,7 +128,7 @@ class Device(models.Model):
     
 
 class Location(models.Model):
-    id = models.IntegerField(unique=True,primary_key=True,editable=False)
+    
     
     name = models.CharField(unique=True,max_length = 100,choices=All_Locations)
     
@@ -157,7 +158,7 @@ class Location(models.Model):
         return self.name + " " + pycountry.countries.get(flag = self.name).name
 
 class Service(models.Model):
-    id = models.IntegerField(unique=True,primary_key=True,editable=False)
+    
     name = models.CharField(unique=True,max_length = 100,choices=All_Service)
 
     First = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_1st_set')    
@@ -183,7 +184,7 @@ class Service(models.Model):
         return self.name
 
 class Form(models.Model):
-    id = models.IntegerField(unique=True,primary_key=True,editable=False)     
+         
     name = models.CharField(max_length=1000)
     email = models.EmailField(max_length=1000)
     Ques_comment = models.TextField(null=True,blank=True) 
