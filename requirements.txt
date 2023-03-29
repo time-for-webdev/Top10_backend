@@ -1,10 +1,11 @@
-Django              4.1.7
-django-cors-headers 3.14.0
-djangorestframework 3.14.0
-pip                 23.0.1
-sqlparse            0.4.3
+django
+django-cors-headers 
+djangorestframework                 
+sqlparse            
 psycopg2
 dj-database-url
 gunicorn
 whitenoise
+poetry
+pycountry
 
