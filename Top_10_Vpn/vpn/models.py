@@ -31,8 +31,14 @@ All_Locations=[]
 for i in range(0,len(pycountry.countries)):
     country = list(pycountry.countries)[i].name 
     flag_code = list(pycountry.countries)[i].flag
-    All_Locations += [[flag_code,country]]
+    All_Locations += [[country,country]]
 
+All_cateogry = (
+    ('Privacy','Privacy'),
+    ('Speed','Speed'),
+    ('security','Security'),
+    ('Newbies','Newbies'),
+)
 
     
 
@@ -71,6 +77,13 @@ class Comparision(models.Model):
     def __str__(self):
         return self.vpn
 
+
+class feature(models.Model):
+    category = models.CharField(max_length=100,choices =All_cateogry,default=1,unique=True)
+    def __str__(self):
+        return self.category
+
+
 class VpnList(models.Model):
     id = models.UUIDField(default= uuid.uuid4,unique=True,primary_key=True,editable=False)
     title = models.CharField(max_length=200,unique=True)
@@ -84,9 +97,11 @@ class VpnList(models.Model):
     riben_text = models.CharField(max_length=1000,null = True,blank=True)
     Comparision = models.OneToOneField(Comparision,null=True,blank = True,on_delete=models.PROTECT)
     user_name = models.CharField(max_length=1000,default="")
+    feature = models.ManyToManyField(feature)
     user_comment = models.CharField(max_length=1000,default="")
     user_rating = models.DecimalField(max_digits=2,decimal_places=1,default=0,validators=[MaxValueValidator(5)])
-    
+
+  
 
     
     def __str__(self):
@@ -121,7 +136,7 @@ class Device(models.Model):
             raise ValidationError('The First to Tenth fields must be unique.')
 
     def __str__(self):
-        return self.name
+        return self.name 
 
     
 
@@ -155,7 +170,7 @@ class Location(models.Model):
 
     
     def __str__(self):
-        return self.name + " " + pycountry.countries.get(flag = self.name).name
+        return pycountry.countries.get(name = self.name).flag + " " + self.name 
 
 class Service(models.Model):
     
@@ -191,5 +206,17 @@ class Form(models.Model):
 
     def __str__(self):
         return self.name  
+
+
+class FAQ(models.Model):
+    Question = models.TextField(default="",unique=True)
+    Answer =  models.TextField(default="")
+
+    def __str__(self):
+        return 'Question '+str(self.id)
+
+
+
+
     
 

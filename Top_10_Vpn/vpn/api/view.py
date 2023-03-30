@@ -1,13 +1,14 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from vpn.models import VpnList,Form,Specification,Device,Location,Service
-from .serializers import VpnList_Serializer,Form_Serializer,Specification_Serializer,Device_Serializer,Location_Serializer,Service_Serializer
+from vpn.models import VpnList,Form,Specification,Device,Location,Service,FAQ
+from .serializers import VpnList_Serializer,Form_Serializer,Specification_Serializer,Device_Serializer,Location_Serializer,Service_Serializer,FAQSerailizer
 from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework.renderers import JSONRenderer
 import io
 from rest_framework.parsers import JSONParser
 from django.http import FileResponse
+import pycountry
 
 @api_view(['GET'])
 def Instruction(request):
@@ -23,7 +24,8 @@ def Instruction(request):
         ('/location/id','Specific Location with its top 7 vpn'),
         ('/service','Show all services'),
         ('/service/id','Specific service with its top 7 vpn'),
-        ('/form/','form details')
+        ('/form/','form details'),
+        ('/faq/','shows all faq'),
     )
     return Response(instruction)
 
@@ -144,7 +146,15 @@ def Form_without_id(request):
 
         Form_set = Form.objects.all()
         serializer = Form_Serializer(Form_set, many=True)
-        return Response(serializer.data)
+        return Response('err')
+
+
+@api_view(['GET'])
+def FAQ_without_id(request):
+    faqset = FAQ.objects.all()
+    serializer = FAQSerailizer(faqset,many = True,context = {'request':request})
+    return Response(serializer.data)
+
     
 
 
