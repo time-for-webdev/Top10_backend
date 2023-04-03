@@ -90,8 +90,10 @@ WSGI_APPLICATION = 'Top_10_Vpn.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-print("now")
-print(os.environ.get("DATABASE_URL"))
+
+DATABASES = {
+    'default' : os.environ.get("DATABASE_URL")
+}
 
 
 # Password validation
