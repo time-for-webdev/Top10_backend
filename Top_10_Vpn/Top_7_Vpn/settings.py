@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'vpn.apps.VpnConfig',
     'rest_framework',
     'corsheaders',
+    'django.contrib.staticfiles',
     
 ]
 
