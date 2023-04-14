@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -82,17 +82,22 @@ WSGI_APPLICATION = 'Top_10_Vpn.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
-    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
-
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'discountvpn_DiscountVpn',
+        'USER': 'discountvpn_Top10Vpn',
+        'PASSWORD': '@O+.]~~4YuO_',
+        'HOST': '170.249.236.54',
+        'PORT': '3306',
+    }
 }
+
+
+# DATABASES = {
+#     'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+
+# }
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -145,5 +150,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
 CORS_ALLOW_ALL_ORIGINS = True
-
 

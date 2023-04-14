@@ -1,4 +1,4 @@
-#!/home/piyush/Desktop/Django/Top10_backend/Top_10_Vpn/venv/bin/python3
+#!/home/piyush/Desktop/Django/Top10_backend/Top_10_Vpn/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
