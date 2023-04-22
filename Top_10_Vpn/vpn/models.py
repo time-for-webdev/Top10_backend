@@ -71,6 +71,7 @@ class Comparision(models.Model):
     moneybackguarantee = models.CharField(max_length=1000,default="")
     servers_or_countries= models.CharField(max_length=1000,default="")
     killswitch = models.CharField(max_length=1000,default="")
+    ChargePerMonth = models.IntegerField(default=0)
     number_of_device_or_licence = models.IntegerField(default=0)
     mobile = models.CharField(max_length=1000,null=True,blank=True)
 
@@ -88,6 +89,7 @@ class VpnList(models.Model):
     id = models.UUIDField(default= uuid.uuid4,unique=True,primary_key=True,editable=False)
     title = models.CharField(max_length=200,unique=True)
     logo = models.ImageField( upload_to='archivos',default="")
+    icon = models.ImageField(upload_to='archivos',default="")
     description = models.TextField(null = True,blank = True)
     specification = models.ManyToManyField(Specification);
     remark = models.ForeignKey(remark,on_delete=models.PROTECT,null=True,blank = True)
@@ -95,7 +97,7 @@ class VpnList(models.Model):
     rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
     website_url = models.URLField(max_length=1000,default="")
     riben_text = models.CharField(max_length=1000,null = True,blank=True)
-    Comparision = models.OneToOneField(Comparision,null=True,blank = True,on_delete=models.PROTECT)
+    Comparision = models.OneToOneField(Comparision,default="",on_delete=models.PROTECT)
     user_name = models.CharField(max_length=1000,default="")
     feature = models.ManyToManyField(feature)
     user_comment = models.CharField(max_length=1000,default="")
@@ -123,14 +125,17 @@ class Device(models.Model):
     Forth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_forth_set')    
     Fifth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_fifth_set')    
     Sixth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_sexth_set')    
-    Seventh = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_seventh_set')    
+    Seventh = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_seventh_set') 
+    Eighth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_eighth_set')    
+    Nineth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_nineth_set')    
+    Tenth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_tenth_set')      
 
     upadte_time = models.DateTimeField(auto_now_add=True,null =True,blank=True)
 
 
     def clean(self):
         # Check for duplicates in the First to Tenth fields
-        first_to_tenth = [self.First, self.Second, self.Third, self.Forth, self.Fifth, self.Sixth, self.Seventh]
+        first_to_tenth = [self.First, self.Second, self.Third, self.Forth, self.Fifth, self.Sixth, self.Seventh,self.Seventh,self.Eighth,self.Nineth,self.Tenth]
         non_empty_fields = [field for field in first_to_tenth if field is not None]
         if len(non_empty_fields) != len(set(non_empty_fields)):
             raise ValidationError('The First to Tenth fields must be unique.')
@@ -209,11 +214,31 @@ class Form(models.Model):
 
 
 class FAQ(models.Model):
-    Question = models.TextField(default="",unique=True)
+    Question = models.CharField(max_length=500,default="",unique=True)
     Answer =  models.TextField(default="")
 
     def __str__(self):
         return 'Question '+str(self.id)
+
+class OwnerContactDetails(models.Model):
+    owner = (
+        ('admin','admin'),
+        ('user1', 'user1'),
+        ('user2', 'user2'),
+    )
+    
+    name = models.CharField(max_length=100,default="",choices=owner,unique=True)
+    Email = models.EmailField(max_length=500,null=True,blank=True)
+    Facebook = models.URLField(max_length=500,null=True,blank=True)
+    Twitter = models.URLField(max_length=500,null=True,blank=True)
+    Youtube = models.URLField(max_length=500,null=True,blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+
+        
 
 
 

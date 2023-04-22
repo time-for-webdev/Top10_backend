@@ -5,7 +5,7 @@ from vpn.form import Vpn_Form
 def home(request):
     dict = {'age':15}
     return render(request,'main.html',dict)
-print("ppp")
+
 def Form(request): 
     vpn_form = Vpn_Form()
     dict = {

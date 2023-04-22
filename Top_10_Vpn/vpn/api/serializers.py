@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from vpn.models import VpnList,Form,Specification,remark,Comparision,Device,Location,Service,FAQ,feature
+from vpn.models import VpnList,Form,Specification,remark,Comparision,Device,Location,Service,FAQ,feature,OwnerContactDetails
 
 class Comparision_Serializer(serializers.ModelSerializer):
     class Meta:
@@ -58,6 +58,9 @@ class Device_Serializer(serializers.ModelSerializer):
     Fifth = VpnList_Serializer()  
     Sixth = VpnList_Serializer()  
     Seventh = VpnList_Serializer()   
+    Eighth = VpnList_Serializer()  
+    Nineth = VpnList_Serializer()  
+    Tenth = VpnList_Serializer()
 
     class Meta:
         model = Device
@@ -71,6 +74,9 @@ class Location_Serializer(serializers.ModelSerializer):
     Fifth = VpnList_Serializer()  
     Sixth = VpnList_Serializer()  
     Seventh = VpnList_Serializer()   
+    Eighth = VpnList_Serializer()  
+    Nineth = VpnList_Serializer()  
+    Tenth = VpnList_Serializer()
 
     class Meta:
         model = Location
@@ -87,7 +93,13 @@ class Service_Serializer(serializers.ModelSerializer):
 
     class Meta:
         model = Service
-        fields = '__all__'     
+        fields = '__all__'  
+
+class OwnerContactDetails_Serializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = OwnerContactDetails
+        fields ='__all__'           
 
                    
 

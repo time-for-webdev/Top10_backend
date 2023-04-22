@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from vpn.models import VpnList,Form,Specification,Device,Location,Service,FAQ
-from .serializers import VpnList_Serializer,Form_Serializer,Specification_Serializer,Device_Serializer,Location_Serializer,Service_Serializer,FAQSerailizer
+from vpn.models import VpnList,Form,Specification,Device,Location,Service,FAQ,OwnerContactDetails
+from .serializers import VpnList_Serializer,Form_Serializer,Specification_Serializer,Device_Serializer,Location_Serializer,Service_Serializer,FAQSerailizer,OwnerContactDetails_Serializer
 from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework.renderers import JSONRenderer
@@ -26,6 +26,7 @@ def Instruction(request):
         ('/service/id','Specific service with its top 7 vpn'),
         ('/form/','form details'),
         ('/faq/','shows all faq'),
+        ('/owner_contact/','show owner contact details'),
     )
     return Response(instruction)
 
@@ -138,15 +139,24 @@ def Form_without_id(request):
                 serializer = Form_Serializer(data=parsed_data)
                 if serializer.is_valid():
                     serializer.save()
-                    return Response("successfully saved")
+                    data ={
+                        'sucess':True,
+                        'msg': "successfully saved",
+                    }
+                    return Response(data)
                 else:
-                    return Response(serializer.errors)
+                    data ={
+                        'sucess':False,
+                        'msg': "Enter a Valid EmailId",
+                    }                
+                    return Response(data)
+
             except Exception:
                 return Response("Error occurs")
 
         Form_set = Form.objects.all()
         serializer = Form_Serializer(Form_set, many=True)
-        return Response('err')
+        return Response(serializer.data)
 
 
 @api_view(['GET'])
@@ -154,6 +164,28 @@ def FAQ_without_id(request):
     faqset = FAQ.objects.all()
     serializer = FAQSerailizer(faqset,many = True,context = {'request':request})
     return Response(serializer.data)
+
+@api_view(['GET'])
+def OwnerContactDetails_without_id(request):
+    try:
+        ownerdetail = OwnerContactDetails.objects.get(name ='admin')
+        serializer =OwnerContactDetails_Serializer(ownerdetail)
+        return Response(serializer.data)
+    except:
+        data ={
+            'name' : None,
+            'Email' : None,
+            'Facebook':None,
+            'Twitter' : None,
+            'Youtube' : None,
+        
+        }
+        return Response(data=data)
+
+
+    
+
+
 
     
 

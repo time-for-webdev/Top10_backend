@@ -82,16 +82,24 @@ WSGI_APPLICATION = 'Top_10_Vpn.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'sowhatever711$discountvpn_DiscountVpn',
+#         'USER': 'sowhatever711',
+#         'PASSWORD': 'abghzfgahhbahhh_abna',
+#         'HOST': 'sowhatever711.mysql.pythonanywhere-services.com',
+#         'PORT': '3306',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'discountvpn_DiscountVpn',
-        'USER': 'discountvpn_Top10Vpn',
-        'PASSWORD': '@O+.]~~4YuO_',
-        'HOST': '170.249.236.54',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 # DATABASES = {
