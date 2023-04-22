@@ -51,7 +51,7 @@ All_cateogry = (
 
 class Specification(models.Model):
     
-    vpn_name = models.CharField(max_length=1000)
+    vpn_name = models.CharField(max_length=200)
     description = models.TextField()
 
     def __str__(self):
@@ -59,28 +59,28 @@ class Specification(models.Model):
 
 class remark(models.Model):
     
-    remarks = models.CharField(max_length=1000,default ="")
+    remarks = models.CharField(max_length=200,default ="")
     
     def __str__(self):
         return self.remarks
     
 class Comparision(models.Model):
     
-    vpn = models.CharField(max_length=1000,unique=True)
+    vpn = models.CharField(max_length=200,unique=True)
     comparison_description = models.TextField()
-    moneybackguarantee = models.CharField(max_length=1000,default="")
-    servers_or_countries= models.CharField(max_length=1000,default="")
-    killswitch = models.CharField(max_length=1000,default="")
+    moneybackguarantee = models.CharField(max_length=200,default="")
+    servers_or_countries= models.CharField(max_length=200,default="")
+    killswitch = models.CharField(max_length=200,default="")
     ChargePerMonth = models.IntegerField(default=0)
     number_of_device_or_licence = models.IntegerField(default=0)
-    mobile = models.CharField(max_length=1000,null=True,blank=True)
+    mobile = models.CharField(max_length=200,null=True,blank=True)
 
     def __str__(self):
         return self.vpn
 
 
 class feature(models.Model):
-    category = models.CharField(max_length=100,choices =All_cateogry,default=1,unique=True)
+    category = models.CharField(max_length=200,choices =All_cateogry,default=1,unique=True)
     def __str__(self):
         return self.category
 
@@ -93,14 +93,14 @@ class VpnList(models.Model):
     description = models.TextField(null = True,blank = True)
     specification = models.ManyToManyField(Specification);
     remark = models.ForeignKey(remark,on_delete=models.PROTECT,null=True,blank = True)
-    offer = models.CharField(max_length=1000,null = True,blank = True)
+    offer = models.CharField(max_length=200,null = True,blank = True)
     rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
-    website_url = models.URLField(max_length=1000,default="")
-    riben_text = models.CharField(max_length=1000,null = True,blank=True)
+    website_url = models.URLField(max_length=200,default="")
+    riben_text = models.CharField(max_length=200,null = True,blank=True)
     Comparision = models.OneToOneField(Comparision,default="",on_delete=models.PROTECT)
-    user_name = models.CharField(max_length=1000,default="")
+    user_name = models.CharField(max_length=200,default="")
     feature = models.ManyToManyField(feature)
-    user_comment = models.CharField(max_length=1000,default="")
+    user_comment = models.CharField(max_length=200,default="")
     user_rating = models.DecimalField(max_digits=2,decimal_places=1,default=0,validators=[MaxValueValidator(5)])
 
   
@@ -116,7 +116,7 @@ class VpnList(models.Model):
 
 class Device(models.Model):
        
-    name = models.CharField(max_length=100,unique = True,choices=All_Device)
+    name = models.CharField(max_length=200,unique = True,choices=All_Device)
 
      
     First = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_first_set')    
@@ -150,7 +150,7 @@ class Device(models.Model):
 class Location(models.Model):
     
     
-    name = models.CharField(unique=True,max_length = 100,choices=All_Locations)
+    name = models.CharField(unique=True,max_length= 200,choices=All_Locations)
     
 
        
@@ -179,7 +179,7 @@ class Location(models.Model):
 
 class Service(models.Model):
     
-    name = models.CharField(unique=True,max_length = 100,choices=All_Service)
+    name = models.CharField(unique=True,max_length=200,choices=All_Service)
 
     First = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_1st_set')    
     Second = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2nd_set')    
@@ -205,8 +205,8 @@ class Service(models.Model):
 
 class Form(models.Model):
          
-    name = models.CharField(max_length=1000)
-    email = models.EmailField(max_length=1000)
+    name = models.CharField(max_length=200)
+    email = models.EmailField(max_length=200)
     Ques_comment = models.TextField(null=True,blank=True) 
 
     def __str__(self):
@@ -214,7 +214,7 @@ class Form(models.Model):
 
 
 class FAQ(models.Model):
-    Question = models.CharField(max_length=500,default="",unique=True)
+    Question = models.CharField(max_length=200,default="",unique=True)
     Answer =  models.TextField(default="")
 
     def __str__(self):
@@ -227,11 +227,11 @@ class OwnerContactDetails(models.Model):
         ('user2', 'user2'),
     )
     
-    name = models.CharField(max_length=100,default="",choices=owner,unique=True)
-    Email = models.EmailField(max_length=500,null=True,blank=True)
-    Facebook = models.URLField(max_length=500,null=True,blank=True)
-    Twitter = models.URLField(max_length=500,null=True,blank=True)
-    Youtube = models.URLField(max_length=500,null=True,blank=True)
+    name = models.CharField(max_length=200,default="",choices=owner,unique=True)
+    Email = models.EmailField(max_length=200,null=True,blank=True)
+    Facebook = models.URLField(max_length=200,null=True,blank=True)
+    Twitter = models.URLField(max_length=200,null=True,blank=True)
+    Youtube = models.URLField(max_length=200,null=True,blank=True)
 
     def __str__(self):
         return self.name
