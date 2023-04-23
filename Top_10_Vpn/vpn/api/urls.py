@@ -1,5 +1,5 @@
 from django.urls import path
-from .view import Vpn_with_id,Instruction,Vpn_without_id,get_logo_url,Form_without_id,Specification_without_id,DeviceWithoutId,DeviceWithId,LocationWithId,LocationWithoutId,ServiceWithId,ServiceWithoutId,FAQ_without_id,OwnerContactDetails_without_id
+from .view import Vpn_with_id,Instruction,Vpn_without_id,get_logo_url,Form_without_id,Specification_without_id,DeviceWithoutId,DeviceWithId,LocationWithId,LocationWithoutId,ServiceWithId,ServiceWithoutId,FAQ_without_id,OwnerContactDetails_without_id,LastUpdateDate_without_id
 
 urlpatterns =[
     path('',Instruction,name = "Instruction"),
@@ -16,6 +16,7 @@ urlpatterns =[
     path('specification/',Specification_without_id,name="Specification_without_id"),
     path('faq/',FAQ_without_id,name = 'FAQ_without_id'),
     path('owner_contact/',OwnerContactDetails_without_id,name='OwnerContactDetails_without_id'),
+    path('last_update_time/',LastUpdateDate_without_id,name='LastUpdateDate_without_id'),
     
 ]
 

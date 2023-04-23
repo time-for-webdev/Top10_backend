@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from vpn.models import VpnList,Form,Specification,Device,Location,Service,FAQ,OwnerContactDetails
-from .serializers import VpnList_Serializer,Form_Serializer,Specification_Serializer,Device_Serializer,Location_Serializer,Service_Serializer,FAQSerailizer,OwnerContactDetails_Serializer
+from vpn.models import VpnList,Form,Specification,Device,Location,Service,FAQ,OwnerContactDetails,LastUpdateDate
+from .serializers import VpnList_Serializer,Form_Serializer,Specification_Serializer,Device_Serializer,Location_Serializer,Service_Serializer,FAQSerailizer,OwnerContactDetails_Serializer,LastUpdateDate_Serializer
 from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework.renderers import JSONRenderer
@@ -27,6 +27,7 @@ def Instruction(request):
         ('/form/','form details'),
         ('/faq/','shows all faq'),
         ('/owner_contact/','show owner contact details'),
+        ('/last_update_time/','show date and time of last update'),
     )
     return Response(instruction)
 
@@ -140,13 +141,13 @@ def Form_without_id(request):
                 if serializer.is_valid():
                     serializer.save()
                     data ={
-                        'sucess':True,
+                        'success':True,
                         'msg': "successfully saved",
                     }
                     return Response(data)
                 else:
                     data ={
-                        'sucess':False,
+                        'success':False,
                         'msg': "Enter a Valid EmailId",
                     }                
                     return Response(data)
@@ -181,6 +182,21 @@ def OwnerContactDetails_without_id(request):
         
         }
         return Response(data=data)
+
+
+@api_view(['GET'])
+def LastUpdateDate_without_id(request):
+    try:
+        lastupdatedate = LastUpdateDate.objects.get(name ='admin')
+        serializer =LastUpdateDate_Serializer(lastupdatedate)
+        return Response(serializer.data)
+    except:
+        data ={
+            'name':None,
+            'last_changed_date' : None,
+        
+        }
+        return Response(data=data)        
 
 
     
