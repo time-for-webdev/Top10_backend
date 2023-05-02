@@ -8,7 +8,7 @@ from rest_framework.renderers import JSONRenderer
 import io
 from rest_framework.parsers import JSONParser
 from django.http import FileResponse
-import pycountry
+
 
 @api_view(['GET'])
 def Instruction(request):

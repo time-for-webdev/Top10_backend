@@ -2,7 +2,6 @@ from django.db import models
 import uuid
 from django.core.validators import MaxValueValidator
 from django.core.exceptions import ValidationError
-import pycountry
 import datetime
 
 
@@ -27,11 +26,16 @@ All_Service = [
 ] 
 
 
-All_Locations=[]
-for i in range(0,len(pycountry.countries)):
-    country = list(pycountry.countries)[i].name 
-    flag_code = list(pycountry.countries)[i].flag
-    All_Locations += [[country,country]]
+All_Locations=(
+    ('china','china'),
+    ('unitedState','unitedState'),
+    ('india','india'),
+    ('australia','australia'),
+    ('burundi','burundi'),
+    ('unitedArabEmirates','unitedArabEmirates'),
+
+)
+
 
 All_cateogry = (
     ('Privacy','Privacy'),
@@ -119,23 +123,43 @@ class Device(models.Model):
     name = models.CharField(max_length=200,unique = True,choices=All_Device)
 
      
-    First = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_first_set')    
+    First = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_first_set') 
+    First_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+   
+    
     Second = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_second_set')    
+    Second_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+
     Third = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_third_set')    
+    Third_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    
     Forth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_forth_set')    
+    Fourth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    
     Fifth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_fifth_set')    
+    Fivth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    
     Sixth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_sexth_set')    
+    Sixth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    
     Seventh = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_seventh_set') 
+    Seventh_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+   
     Eighth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_eighth_set')    
+    Eighth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    
     Nineth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_nineth_set')    
+    Nineth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+   
     Tenth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_tenth_set')      
+    Tenth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
 
     upadte_time = models.DateTimeField(auto_now_add=True,null =True,blank=True)
 
 
     def clean(self):
         # Check for duplicates in the First to Tenth fields
-        first_to_tenth = [self.First, self.Second, self.Third, self.Forth, self.Fifth, self.Sixth, self.Seventh,self.Seventh,self.Eighth,self.Nineth,self.Tenth]
+        first_to_tenth = [self.First, self.Second, self.Third, self.Forth, self.Fifth, self.Sixth, self.Seventh,self.Eighth,self.Nineth,self.Tenth]
         non_empty_fields = [field for field in first_to_tenth if field is not None]
         if len(non_empty_fields) != len(set(non_empty_fields)):
             raise ValidationError('The First to Tenth fields must be unique.')
@@ -154,22 +178,41 @@ class Location(models.Model):
     
 
     First = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_first_set')    
+    First_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+   
     Second = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_second_set')    
+    Second_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    
     Third = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_third_set')    
+    Third_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    
     Forth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_forth_set')    
+    Fourth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+
     Fifth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_fifth_set')    
+    Fivth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+
     Sixth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_sexth_set')    
+    Sixth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+
     Seventh = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_seventh_set') 
+    Seventh_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+
     Eighth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_eighth_set')    
+    Eighth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+
     Nineth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_nineth_set')    
+    Nineth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+
     Tenth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_tenth_set')      
 
     upadte_time = models.DateTimeField(auto_now_add=True,null =True,blank=True)
+    Tenth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
 
 
     def clean(self):
         # Check for duplicates in the First to Tenth fields
-        first_to_tenth = [self.First, self.Second, self.Third, self.Forth, self.Fifth, self.Sixth, self.Seventh,self.Seventh,self.Eighth,self.Nineth,self.Tenth]
+        first_to_tenth = [self.First, self.Second, self.Third, self.Forth, self.Fifth, self.Sixth, self.Seventh,self.Eighth,self.Nineth,self.Tenth]
         non_empty_fields = [field for field in first_to_tenth if field is not None]
         if len(non_empty_fields) != len(set(non_empty_fields)):
             raise ValidationError('The First to Tenth fields must be unique.')
@@ -177,7 +220,7 @@ class Location(models.Model):
 
     
     def __str__(self):
-        return pycountry.countries.get(name = self.name).flag + " " + self.name 
+        return  self.name 
 
 class Service(models.Model):
     
@@ -185,15 +228,34 @@ class Service(models.Model):
 
 
     First = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2first_set')    
+    First_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+
     Second = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2second_set')    
+    Second_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+
     Third = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2third_set')    
+    Third_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+
     Forth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2forth_set')    
+    Fourth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    
     Fifth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2fifth_set')    
+    Fivth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+
     Sixth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2sexth_set')    
+    Sixth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+
     Seventh = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2seventh_set') 
+    Seventh_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+
     Eighth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2eighth_set')    
+    Eighth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+
     Nineth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2nineth_set')    
+    Nineth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+
     Tenth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2tenth_set')      
+    Tenth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
 
 
 
@@ -202,7 +264,7 @@ class Service(models.Model):
 
     def clean(self):
         # Check for duplicates in the First to Tenth fields
-        first_to_tenth = [self.First, self.Second, self.Third, self.Forth, self.Fifth, self.Sixth, self.Seventh,self.Seventh,self.Eighth,self.Nineth,self.Tenth]
+        first_to_tenth = [self.First, self.Second, self.Third, self.Forth, self.Fifth, self.Sixth, self.Seventh,self.Eighth,self.Nineth,self.Tenth]
         non_empty_fields = [field for field in first_to_tenth if field is not None]
         if len(non_empty_fields) != len(set(non_empty_fields)):
             raise ValidationError('The First to Tenth fields must be unique.')
