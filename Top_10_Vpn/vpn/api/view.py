@@ -9,6 +9,34 @@ import io
 from rest_framework.parsers import JSONParser
 from django.http import FileResponse
 
+def change_requird_data(data):
+    vpn = []
+    rating = []
+    remark =[]
+    ct =-1
+    flag = True
+    for i in data :
+        ct+=1
+        if ct>35 :
+            break
+        if ct<=14 :
+            if ct :
+                vpn.append(i)
+        else:
+            if ct == 15 :
+                continue
+            if flag :
+                rating.append(i)
+                flag = False
+            else :
+                remark.append(i)
+                flag = True
+    for i in range(0,10):
+        if data[vpn[i]] :
+            data[vpn[i]]['rating']=data[rating[i]]
+            data[vpn[i]]['remark']=data[remark[i]]
+    return data        
+    
 
 @api_view(['GET'])
 def Instruction(request):
@@ -83,7 +111,9 @@ def DeviceWithId(request,pk):
     try:
         deviceobject = Device.objects.get(name = pk)
         serializer = Device_Serializer(deviceobject,context = {'request':request})
-        return Response(serializer.data)
+        data = serializer.data
+        data = change_requird_data(data=data)
+        return Response(data=data)
     except:
         return Response("Id is invalid")    
 
@@ -103,7 +133,9 @@ def LocationWithId(request,pk):
     try:
         Locationobject = Location.objects.get(name = pk)
         serializer = Location_Serializer(Locationobject,context = {'request':request})
-        return Response(serializer.data)
+        data = serializer.data
+        data = change_requird_data(data=data)
+        return Response(data=data)
     except:
         return Response("Id is invalid")   
 
@@ -123,7 +155,9 @@ def ServiceWithId(request,pk):
     try:
         serviceobject = Service.objects.get(name = pk)
         serializer = Service_Serializer(serviceobject,context = {'request':request})
-        return Response(serializer.data)
+        data = serializer.data
+        data = change_requird_data(data=data)
+        return Response(data=data)
     except:
         return Response("Id is invalid") 
 

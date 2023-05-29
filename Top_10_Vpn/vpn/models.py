@@ -6,10 +6,10 @@ import datetime
 
 
 
-# global tuples 
+# global tuples
 
 All_Device = (
-    ('Andriod','Andriod'),
+    ('Android','Android'),
     ('iPhone&iPad','iPhone&iPad'),
     ('Mac','Mac'),
     ('Routers','Routers'),
@@ -23,7 +23,7 @@ year = today.strftime("%Y")
 All_Service_obj = 'Overall Best Vpn of '+year
 All_Service = [
     [All_Service_obj,All_Service_obj],
-] 
+]
 
 
 All_Locations=(
@@ -44,7 +44,7 @@ All_cateogry = (
     ('Newbies','Newbies'),
 )
 
-    
+
 
 
 
@@ -54,7 +54,7 @@ All_cateogry = (
 # Create your models here.
 
 class Specification(models.Model):
-    
+
     vpn_name = models.CharField(max_length=200)
     description = models.TextField()
 
@@ -62,14 +62,14 @@ class Specification(models.Model):
         return self.vpn_name
 
 class remark(models.Model):
-    
+
     remarks = models.CharField(max_length=200,default ="")
-    
+
     def __str__(self):
         return self.remarks
-    
+
 class Comparision(models.Model):
-    
+
     vpn = models.CharField(max_length=200,unique=True)
     comparison_description = models.TextField()
     moneybackguarantee = models.CharField(max_length=200,default="")
@@ -107,52 +107,68 @@ class VpnList(models.Model):
     user_comment = models.CharField(max_length=200,default="")
     user_rating = models.DecimalField(max_digits=2,decimal_places=1,default=0,validators=[MaxValueValidator(5)])
 
-  
 
-    
+
+
     def __str__(self):
         return self.title
-        
+
 
 
 
 
 
 class Device(models.Model):
-       
+
     name = models.CharField(max_length=200,unique = True,choices=All_Device)
 
-     
-    First = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_first_set') 
-    First_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
-   
-    
-    Second = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_second_set')    
-    Second_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
 
-    Third = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_third_set')    
+    Specification1 = models.CharField(max_length=200,default="")
+    Specification2 = models.CharField(max_length=200,default="")
+    Specification3 = models.CharField(max_length=200,default="")
+    Specification4 = models.CharField(max_length=200,default="")
+
+
+    First = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_first_set')
+    First_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    First_remark = models.CharField(max_length=200,default="Good")
+
+
+    Second = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_second_set')
+    Second_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Second_remark = models.CharField(max_length=200,default="Good")
+
+    Third = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_third_set')
     Third_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
-    
-    Forth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_forth_set')    
+    Third_remark = models.CharField(max_length=200,default="Good")
+
+    Forth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_forth_set')
     Fourth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
-    
-    Fifth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_fifth_set')    
-    Fivth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
-    
-    Sixth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_sexth_set')    
+    Fourth_remark = models.CharField(max_length=200,default="Good")
+
+    Fifth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_fifth_set')
+    Fifth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Fifth_remark = models.CharField(max_length=200,default="Good")
+
+    Sixth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_sexth_set')
     Sixth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
-    
-    Seventh = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_seventh_set') 
+    Sixth_remark = models.CharField(max_length=200,default="Good")
+
+    Seventh = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_seventh_set')
     Seventh_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
-   
-    Eighth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_eighth_set')    
+    Seventh_remark = models.CharField(max_length=200,default="Good")
+
+    Eighth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_eighth_set')
     Eighth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
-    
-    Nineth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_nineth_set')    
+    Eighth_remark = models.CharField(max_length=200,default="Good")
+
+    Nineth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_nineth_set')
     Nineth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
-   
-    Tenth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_tenth_set')      
+    Ninth_remark = models.CharField(max_length=200,default="Good")
+
+    Tenth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_tenth_set')
     Tenth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Tenth_remark = models.CharField(max_length=200,default="Good")
 
     upadte_time = models.DateTimeField(auto_now_add=True,null =True,blank=True)
 
@@ -165,49 +181,64 @@ class Device(models.Model):
             raise ValidationError('The First to Tenth fields must be unique.')
 
     def __str__(self):
-        return self.name 
+        return self.name
 
-    
 
-    
+
+
 
 class Location(models.Model):
-    
-    
+
+
     name = models.CharField(unique=True,max_length= 200,choices=All_Locations)
-    
 
-    First = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_first_set')    
+    Specification1 = models.CharField(max_length=200,default="")
+    Specification2 = models.CharField(max_length=200,default="")
+    Specification3 = models.CharField(max_length=200,default="")
+    Specification4 = models.CharField(max_length=200,default="")
+
+
+    First = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_first_set')
     First_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
-   
-    Second = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_second_set')    
+    First_remark = models.CharField(max_length=200,default="Good")
+
+    Second = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_second_set')
     Second_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
-    
-    Third = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_third_set')    
+    Second_remark = models.CharField(max_length=200,default="Good")
+
+    Third = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_third_set')
     Third_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
-    
-    Forth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_forth_set')    
+    Third_remark = models.CharField(max_length=200,default="Good")
+
+    Forth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_forth_set')
     Fourth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Fourth_remark = models.CharField(max_length=200,default="Good")
 
-    Fifth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_fifth_set')    
-    Fivth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Fifth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_fifth_set')
+    Fifth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Fifth_remark = models.CharField(max_length=200,default="Good")
 
-    Sixth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_sexth_set')    
+    Sixth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_sexth_set')
     Sixth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Sixth_remark = models.CharField(max_length=200,default="Good")
 
-    Seventh = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_seventh_set') 
+    Seventh = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_seventh_set')
     Seventh_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Seventh_remark = models.CharField(max_length=200,default="Good")
 
-    Eighth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_eighth_set')    
+    Eighth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_eighth_set')
     Eighth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Eighth_remark = models.CharField(max_length=200,default="Good")
 
-    Nineth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_nineth_set')    
+    Nineth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_nineth_set')
     Nineth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Ninth_remark = models.CharField(max_length=200,default="Good")
 
-    Tenth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_tenth_set')      
+    Tenth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten1_tenth_set')
+    Tenth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Tenth_remark = models.CharField(max_length=200,default="Good")
 
     upadte_time = models.DateTimeField(auto_now_add=True,null =True,blank=True)
-    Tenth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
 
 
     def clean(self):
@@ -218,44 +249,60 @@ class Location(models.Model):
             raise ValidationError('The First to Tenth fields must be unique.')
 
 
-    
+
     def __str__(self):
-        return  self.name 
+        return  self.name
 
 class Service(models.Model):
-    
+
     name = models.CharField(unique=True,max_length=200,choices=All_Service)
 
 
-    First = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2first_set')    
+    Specification1 = models.CharField(max_length=200,default="")
+    Specification2 = models.CharField(max_length=200,default="")
+    Specification3 = models.CharField(max_length=200,default="")
+    Specification4 = models.CharField(max_length=200,default="")
+
+
+    First = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2first_set')
     First_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    First_remark = models.CharField(max_length=200,default="Good")
 
-    Second = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2second_set')    
+    Second = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2second_set')
     Second_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Second_remark = models.CharField(max_length=200,default="Good")
 
-    Third = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2third_set')    
+    Third = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2third_set')
     Third_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Third_remark = models.CharField(max_length=200,default="Good")
 
-    Forth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2forth_set')    
+    Forth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2forth_set')
     Fourth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
-    
-    Fifth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2fifth_set')    
-    Fivth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    fourth_remark = models.CharField(max_length=200,default="Good")
 
-    Sixth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2sexth_set')    
+    Fifth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2fifth_set')
+    Fifth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Fifth_remark = models.CharField(max_length=200,default="Good")
+
+    Sixth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2sexth_set')
     Sixth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Sixth_remark = models.CharField(max_length=200,default="Good")
 
-    Seventh = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2seventh_set') 
+    Seventh = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2seventh_set')
     Seventh_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Seventh_remark = models.CharField(max_length=200,default="Good")
 
-    Eighth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2eighth_set')    
+    Eighth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2eighth_set')
     Eighth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Eighth_remark = models.CharField(max_length=200,default="Good")
 
-    Nineth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2nineth_set')    
+    Nineth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2nineth_set')
     Nineth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Nineth_remark = models.CharField(max_length=200,default="Good")
 
-    Tenth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2tenth_set')      
+    Tenth = models.ForeignKey(VpnList,on_delete=models.PROTECT,null=True,blank=True,related_name='top_ten_2tenth_set')
     Tenth_rating = models.DecimalField(max_digits=3,decimal_places=1,default=0,validators=[MaxValueValidator(10)])
+    Tenth_remark = models.CharField(max_length=200,default="Good")
 
 
 
@@ -268,19 +315,19 @@ class Service(models.Model):
         non_empty_fields = [field for field in first_to_tenth if field is not None]
         if len(non_empty_fields) != len(set(non_empty_fields)):
             raise ValidationError('The First to Tenth fields must be unique.')
-    
+
 
     def __str__(self):
         return self.name
 
 class Form(models.Model):
-         
+
     name = models.CharField(max_length=200)
     email = models.EmailField(max_length=200)
-    Ques_comment = models.TextField(null=True,blank=True) 
+    Ques_comment = models.TextField(null=True,blank=True)
 
     def __str__(self):
-        return self.name  
+        return self.name
 
 
 class FAQ(models.Model):
@@ -296,7 +343,7 @@ class OwnerContactDetails(models.Model):
         ('user1', 'user1'),
         ('user2', 'user2'),
     )
-    
+
     name = models.CharField(max_length=200,default="",choices=owner,unique=True)
     Email = models.EmailField(max_length=200,null=True,blank=True)
     Facebook = models.URLField(max_length=200,null=True,blank=True)
@@ -322,10 +369,10 @@ class LastUpdateDate(models.Model):
 
 
 
-        
 
 
 
 
-    
+
+
 
